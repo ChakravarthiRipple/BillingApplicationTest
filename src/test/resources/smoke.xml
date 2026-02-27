@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SMOKE SUITE  -  Login + Logout for all 6 roles
+     Command: mvn test -Dsuite=smoke
+     ═══════════════════════════════════════════════════════════════ -->
+<suite name="Smoke Tests - All Roles" parallel="tests" thread-count="6" verbose="1">
+
+    <listeners>
+        <listener class-name="listeners.ExtentReportListener"/>
+    </listeners>
+
+    <test name="Super Admin Smoke">
+        <groups><run><include name="smoke"/></run></groups>
+        <classes><class name="tests.superadmin.SuperAdminTest"/></classes>
+    </test>
+
+    <test name="Super User Smoke">
+        <groups><run><include name="smoke"/></run></groups>
+        <classes><class name="tests.superuser.SuperUserTest"/></classes>
+    </test>
+
+    <test name="Admin Prepaid Smoke">
+        <groups><run><include name="smoke"/></run></groups>
+        <classes><class name="tests.admin.AdminTest"/></classes>
+    </test>
+
+    <test name="Admin Postpaid Smoke">
+        <groups><run><include name="smoke"/></run></groups>
+        <classes><class name="tests.admin.AdminTest"/></classes>
+    </test>
+
+    <test name="Consumer Prepaid Smoke">
+        <groups><run><include name="smoke"/></run></groups>
+        <classes><class name="tests.consumer.ConsumerTest"/></classes>
+    </test>
+
+    <test name="Consumer Postpaid Smoke">
+        <groups><run><include name="smoke"/></run></groups>
+        <classes><class name="tests.consumer.ConsumerTest"/></classes>
+    </test>
+
+</suite>
