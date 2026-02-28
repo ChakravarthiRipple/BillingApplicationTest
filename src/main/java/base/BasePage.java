@@ -25,9 +25,9 @@ public class BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public void click(WebElement el) {
-        log.info("Click: {}", el);
-        wait.until(ExpectedConditions.elementToBeClickable(el)).click();
+    public void click(WebElement loginButton) {
+        log.info("Click: {}", loginButton);
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
     public void type(WebElement el, String text) {

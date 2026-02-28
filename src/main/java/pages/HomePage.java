@@ -1,142 +1,201 @@
 package pages;
 
 import base.BasePage;
+
+import java.time.Duration;
+
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
- * HomePage - Dashboard page for all 6 roles.
- * All roles see "Welcome To Ripple Dashboard!" after login.
+ * HomePage - Dashboard page for all 6 roles. All roles see "Welcome To Ripple
+ * Dashboard!" after login.
  */
 public class HomePage extends BasePage {
 
-    // ── Dashboard Welcome Message ─────────────────────────────
-    @FindBy(xpath = "//h1[contains(text(),'Welcome To Ripple Dashboard!')] | //h2[contains(text(),'Welcome To Ripple Dashboard!')] | //*[contains(text(),'Welcome To Ripple Dashboard!')]")
-    private WebElement welcomeMessage;
+	// ── Dashboard Welcome Message ─────────────────────────────
+	@FindBy(xpath = "//h4[contains(text(),'Welcome To Ripple Dashboard!')]")
+	private WebElement welcomeMessage;
 
-    // ── Profile Icon (top right corner) ──────────────────────
-    @FindBy(xpath = "//div[contains(@class,'profile') or contains(@class,'avatar') or contains(@class,'user-icon')] | //img[contains(@class,'profile') or contains(@class,'avatar')]")
-    private WebElement profileIcon;
+	// ── Profile Icon (top right corner) ──────────────────────
+	@FindBy(xpath = "//img[(@class='rounded-circle header-profile-user')]")
+	private WebElement profileIcon;
 
-    // ── Profile Dropdown ──────────────────────────────────────
-    @FindBy(xpath = "//ul[contains(@class,'dropdown')] | //div[contains(@class,'dropdown-menu')]")
-    private WebElement profileDropdown;
+	// ── Profile Dropdown ──────────────────────────────────────
+	@FindBy(xpath = "//div[@class='dropdown-menu dropdown-menu-end show']")
+	private WebElement profileDropdown;
 
-    @FindBy(xpath = "//a[contains(text(),'Profile')] | //span[contains(text(),'Profile')] | //li[contains(text(),'Profile')]")
-    private WebElement profileMenuItem;
+	@FindBy(xpath = "//a[(@class='dropdown-item')]")
+	private WebElement profileMenuItem;
 
-    @FindBy(xpath = "//a[contains(text(),'Logout')] | //span[contains(text(),'Logout')] | //li[contains(text(),'Logout')] | //button[contains(text(),'Logout')]")
-    private WebElement logoutMenuItem;
+	@FindBy(xpath = "//a[(@class='dropdown-item text-danger')]")
+	private WebElement logoutMenuItem;
 
-    // ── Profile Popup Fields ──────────────────────────────────
-    @FindBy(xpath = "//div[contains(@class,'modal') or contains(@class,'popup') or contains(@class,'profile-form')]")
-    private WebElement profilePopup;
+	// ── Profile Popup Fields ──────────────────────────────────
+	@FindBy(xpath = "(//h5[contains(text(),'Profile')])[2]")
+	private WebElement profilePopup;
 
-    @FindBy(xpath = "//input[@formcontrolname='firstName'] | //input[contains(@placeholder,'First Name')] | //input[@id='firstName']")
-    private WebElement firstNameField;
+	@FindBy(id = "firstName")
+	private WebElement firstNameField;
 
-    @FindBy(xpath = "//input[@formcontrolname='lastName'] | //input[contains(@placeholder,'Last Name')] | //input[@id='lastName']")
-    private WebElement lastNameField;
+	@FindBy(id = "lastName")
+	private WebElement lastNameField;
 
-    @FindBy(xpath = "//input[@formcontrolname='email'] | //input[contains(@placeholder,'Email')] | //input[@id='email'] | //input[@type='email']")
-    private WebElement emailField;
+	@FindBy(id = "emailAddress")
+	private WebElement emailField;
 
-    @FindBy(xpath = "//input[@formcontrolname='primaryMobile'] | //input[contains(@placeholder,'Primary')] | //input[@id='primaryMobile']")
-    private WebElement primaryMobileField;
+	@FindBy(id = "mobileNumber")
+	private WebElement primaryMobileField;
 
-    @FindBy(xpath = "//input[@formcontrolname='secondaryEmail'] | //input[contains(@placeholder,'Secondary Email')] | //input[@id='secondaryEmail']")
-    private WebElement secondaryEmailField;
+	@FindBy(id = "secondaryEmail")
+	private WebElement secondaryEmailField;
 
-    @FindBy(xpath = "//input[@formcontrolname='secondaryMobile'] | //input[contains(@placeholder,'Secondary')] | //input[@id='secondaryMobile']")
-    private WebElement secondaryMobileField;
+	@FindBy(id = "secondaryPhoneNumber")
+	private WebElement secondaryMobileField;
 
-    @FindBy(xpath = "//select[@formcontrolname='country'] | //select[contains(@id,'country')] | //ng-select[contains(@id,'country')]")
-    private WebElement countryDropdown;
+	@FindBy(xpath = "//div[@class='ng-select-container']")
+	private WebElement countryDropdown;
 
-    @FindBy(xpath = "//*[contains(text(),'Verify email address') or contains(text(),'verify email') or contains(text(),'mobile login')]")
-    private WebElement verifyEmailOrMobileLink;
+	// ── Update Button ─────────────────────────────────────────
+	@FindBy(xpath = "//button[contains(text(),'Update')]")
+	private WebElement updateButton;
 
-    // ── Update Button ─────────────────────────────────────────
-    @FindBy(xpath = "//button[contains(text(),'Update')] | //button[contains(text(),'Save')] | //button[contains(text(),'Submit')]")
-    private WebElement updateButton;
+	// ── Update Success Popup ──────────────────────────────────
+	@FindBy(xpath = "//h2[contains(text(),'Success')]")
+	private WebElement successPopup;
 
-    // ── Update Success Popup ──────────────────────────────────
-    @FindBy(xpath = "//div[contains(@class,'success') or contains(@class,'swal') or contains(@class,'alert-success')] | //*[contains(text(),'successful') or contains(text(),'Successfully') or contains(text(),'Updated')]")
-    private WebElement successPopup;
+	@FindBy(xpath = "//button[contains(text(),'OK')]")
+	private WebElement successOkButton;
 
-    @FindBy(xpath = "//button[text()='OK' or text()='Ok' or text()='Okay'] | //button[contains(@class,'confirm')] | //button[contains(@class,'swal2-confirm')]")
-    private WebElement successOkButton;
+	public HomePage(WebDriver driver) {
+		super(driver);
+	}
 
-    public HomePage(WebDriver driver) {
-        super(driver);
-    }
+	// ── Dashboard ─────────────────────────────────────────────
 
-    // ── Dashboard ─────────────────────────────────────────────
+	public boolean isDashboardLoaded() {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+			wait.until(ExpectedConditions.visibilityOf(welcomeMessage));
+			return true;
+		} catch (TimeoutException e) {
+			return false;
+		}
+	}
 
-    public boolean isDashboardLoaded() {
-        return isDisplayed(welcomeMessage);
-    }
+	public String getWelcomeMessage() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+		wait.until(ExpectedConditions.visibilityOf(welcomeMessage));
+		return welcomeMessage.getText();
+	}
 
-    public String getWelcomeMessage() {
-        return getText(welcomeMessage);
-    }
+	// ── Profile Icon & Dropdown ───────────────────────────────
 
-    // ── Profile Icon & Dropdown ───────────────────────────────
+	public void clickProfileIcon() {
+		click(profileIcon);
+	}
 
-    public void clickProfileIcon() {
-        click(profileIcon);
-    }
+	public boolean isProfileDropdownDisplayed() {
+		return isDisplayed(profileDropdown);
+	}
 
-    public boolean isProfileDropdownDisplayed() {
-        return isDisplayed(profileDropdown);
-    }
+	public void clickProfileMenuItem() {
+		click(profileMenuItem);
+	}
 
-    public void clickProfileMenuItem() {
-        click(profileMenuItem);
-    }
+	public void clickLogoutMenuItem() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    public void clickLogoutMenuItem() {
-        click(logoutMenuItem);
-    }
+		for (int i = 0; i < 3; i++) {
+			try {
+				wait.until(ExpectedConditions.visibilityOf(logoutMenuItem));
+				wait.until(ExpectedConditions.elementToBeClickable(logoutMenuItem)).click();
+				return;
+			} catch (StaleElementReferenceException e) {
+				// retry
+			}
+		}
+		throw new RuntimeException("Unable to click Logout menu item");
+	}
 
-    // ── Profile Popup ─────────────────────────────────────────
+	// ── Profile Popup ─────────────────────────────────────────
 
-    public boolean isProfilePopupDisplayed() {
-        return isDisplayed(profilePopup);
-    }
+	public boolean isProfilePopupDisplayed() {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			wait.until(ExpectedConditions.visibilityOf(profilePopup));
+			return true;
+		} catch (TimeoutException | StaleElementReferenceException e) {
+			return false;
+		}
+	}
 
-    public boolean isFirstNameFieldDisplayed()      { return isDisplayed(firstNameField); }
-    public boolean isLastNameFieldDisplayed()       { return isDisplayed(lastNameField); }
-    public boolean isEmailFieldDisplayed()          { return isDisplayed(emailField); }
-    public boolean isPrimaryMobileFieldDisplayed()  { return isDisplayed(primaryMobileField); }
-    public boolean isSecondaryEmailFieldDisplayed() { return isDisplayed(secondaryEmailField); }
-    public boolean isSecondaryMobileFieldDisplayed(){ return isDisplayed(secondaryMobileField); }
-    public boolean isCountryDropdownDisplayed()     { return isDisplayed(countryDropdown); }
-    public boolean isVerifyEmailOrMobileLinkDisplayed() { return isDisplayed(verifyEmailOrMobileLink); }
+	public boolean isFirstNameFieldDisplayed() {
+		return isDisplayed(firstNameField);
+	}
 
-    public void updateFirstName(String firstName) { type(firstNameField, firstName); }
-    public void updateLastName(String lastName)   { type(lastNameField, lastName); }
+	public boolean isLastNameFieldDisplayed() {
+		return isDisplayed(lastNameField);
+	}
 
-    public void clickUpdate() {
-        click(updateButton);
-    }
+	public boolean isEmailFieldDisplayed() {
+		return isDisplayed(emailField);
+	}
 
-    // ── Success Popup ─────────────────────────────────────────
+	public boolean isPrimaryMobileFieldDisplayed() {
+		return isDisplayed(primaryMobileField);
+	}
 
-    public boolean isSuccessPopupDisplayed() {
-        return isDisplayed(successPopup);
-    }
+	public boolean isSecondaryEmailFieldDisplayed() {
+		return isDisplayed(secondaryEmailField);
+	}
 
-    public void clickOkOnSuccessPopup() {
-        click(successOkButton);
-    }
+	public boolean isSecondaryMobileFieldDisplayed() {
+		return isDisplayed(secondaryMobileField);
+	}
 
-    // ── Full Logout Flow ──────────────────────────────────────
+	public boolean isCountryDropdownDisplayed() {
+		return isDisplayed(countryDropdown);
+	}
 
-    public void logout() {
-        clickProfileIcon();
-        clickLogoutMenuItem();
-        waitForUrl("login");
-    }
+	public void updateFirstName(String firstName) {
+		type(firstNameField, firstName);
+	}
+
+	public void updateLastName(String lastName) {
+		type(lastNameField, lastName);
+	}
+
+	public void clickUpdate() {
+		click(updateButton);
+	}
+
+	// ── Success Popup ─────────────────────────────────────────
+
+	public boolean isSuccessPopupDisplayed() {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			wait.until(ExpectedConditions.visibilityOf(successPopup));
+			return true;
+		} catch (TimeoutException | StaleElementReferenceException e) {
+			return false;
+		}
+	}
+
+	public void clickOkOnSuccessPopup() {
+		click(successOkButton);
+	}
+
+	// ── Full Logout Flow ──────────────────────────────────────
+
+	public void logout() {
+		clickProfileIcon();
+		clickLogoutMenuItem();
+		waitForUrl("login");
+	}
 }
