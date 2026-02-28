@@ -62,6 +62,18 @@ public class LoginPage extends BasePage {
 		super(driver);
 	}
 
+	// Invalid OTP popup container
+	@FindBy(xpath = "//div[contains(text(),'Invalid OTP')]")
+	private WebElement invalidOtpPopup;
+
+	// OK button inside Invalid OTP popup
+	@FindBy(xpath = "//button[contains(text(),'OK')]")
+	private WebElement invalidOtpPopupOkButton;
+
+	// Invalid OTP message shown near username/email field
+	@FindBy(xpath = "//div[contains(text(),'Invalid OTP')]")
+	private WebElement invalidOtpUsernameErrorMessage;
+
 	// ──────────────────────────────────────────────────────────
 	// SCENARIO 1: Valid Login — email + password
 	// ──────────────────────────────────────────────────────────
@@ -154,5 +166,27 @@ public class LoginPage extends BasePage {
 
 	public boolean isOtpFieldDisplayed() {
 		return isDisplayed(otpInputField);
+	}
+
+	// ──────────────────────────────────────────────────────────
+	// SCENARIO 4: Login with OTP Invalid OTP
+	// ──────────────────────────────────────────────────────────
+
+	public boolean isInvalidOtpPopupDisplayed() {
+	    try {
+	        return wait.until(
+	            ExpectedConditions.visibilityOf(invalidOtpPopup)
+	        ).isDisplayed();
+	    } catch (TimeoutException e) {
+	        return false;
+	    }
+	}
+
+	public void clickInvalidOtpPopupOk() {
+		invalidOtpPopupOkButton.click();
+	}
+
+	public boolean isInvalidOtpMessageDisplayedOnUsername() {
+		return invalidOtpUsernameErrorMessage.isDisplayed();
 	}
 }

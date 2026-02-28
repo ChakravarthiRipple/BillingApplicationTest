@@ -74,13 +74,14 @@ public class LoginTest extends BaseTest {
 	}
 
 	// ──────────────────────────────────────────────────────────
-	// SCENARIO 4: Login with OTP
+	// SCENARIO 4A: Login with INVALID OTP
 	// ──────────────────────────────────────────────────────────
 	@Test(groups = {
-			"regression" }, description = "Enter email, check Login with OTP, click Send OTP, enter OTP and login")
-	@Story("OTP Login")
+			"regression" }, description = "Enter email, login with OTP, enter invalid OTP, verify error popup and message")
+	@Story("OTP Login - Invalid OTP")
 	@Severity(SeverityLevel.CRITICAL)
-	public void testLoginWithOtp() {
+	public void testLoginWithInvalidOtp() {
+
 		LoginPage loginPage = new LoginPage(driver);
 
 		// Enter email and click Send OTP
@@ -89,14 +90,19 @@ public class LoginTest extends BaseTest {
 		// Verify OTP field appears
 		Assert.assertTrue(loginPage.isOtpFieldDisplayed(), "OTP input field should appear after clicking Send OTP");
 
-		// Enter OTP - update "123456" with real OTP for manual run
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Enter OTP: ");
-		String otp = scanner.nextLine();
-		loginPage.enterOtpAndLogin(otp);
+		// Enter INVALID OTP automatically
+		String invalidOtp = "000000";
+		loginPage.enterOtpAndLogin(invalidOtp);
 
-		DashboardPage dashboard = new DashboardPage(driver);
-		Assert.assertTrue(dashboard.isDashboardLoaded(), "Dashboard should load after OTP login");
+		// Verify Invalid OTP popup is displayed
+		Assert.assertTrue(loginPage.isInvalidOtpPopupDisplayed(), "Invalid OTP popup should be displayed");
+
+		// Click OK on popup
+		loginPage.clickInvalidOtpPopupOk();
+
+		// Verify error message displayed near username/email field
+		Assert.assertTrue(loginPage.isInvalidOtpMessageDisplayedOnUsername(),
+				"Invalid OTP message should be displayed near username field");
 	}
 
 	// ──────────────────────────────────────────────────────────
