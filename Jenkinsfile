@@ -2,12 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                echo 'Code checked out successfully'
-            }
-        }
-
         stage('Build') {
             steps {
                 bat 'mvn clean compile'
@@ -16,26 +10,54 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'mvn test'
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    bat 'mvn test'
+                }
             }
         }
     }
 
     post {
-        always {
+        failure {
             emailext(
-                subject: "Build ${currentBuild.currentResult}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                subject: "❌ BUILD FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
 Hi Team,
 
-Build Status: ${currentBuild.currentResult}
+The Jenkins build has FAILED.
 
 Job Name   : ${env.JOB_NAME}
 Build No   : ${env.BUILD_NUMBER}
-Build URL  : ${env.BUILD_URL}
+Status     : ${currentBuild.currentResult}
+
+Build URL:
+${env.BUILD_URL}
+
+Please check the logs.
 
 Regards,
-Jenkins
+Chakravarthi G
+""",
+                to: "devender.ripple@gmail.com, chakravarthi@ripplemetering.com"
+            )
+        }
+
+        success {
+            emailext(
+                subject: "✅ BUILD SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+Hi Team,
+
+The Jenkins build was SUCCESSFUL.
+
+Job Name   : ${env.JOB_NAME}
+Build No   : ${env.BUILD_NUMBER}
+
+Build URL:
+${env.BUILD_URL}
+
+Regards,
+Chakravarthi G
 """,
                 to: "devender.ripple@gmail.com, chakravarthi@ripplemetering.com"
             )
