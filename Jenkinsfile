@@ -38,7 +38,7 @@ Please check the logs.
 Regards,
 Chakravarthi G
 """,
-                to: "devender.ripple@gmail.com, chakravarthi@ripplemetering.com"
+                to: "devender.ripple@gmail.com, chakravarthi@ripplemetering.com, preethi@ripplemetering.com"
             )
         }
 
@@ -59,7 +59,7 @@ ${env.BUILD_URL}
 Regards,
 Chakravarthi G
 """,
-                to: "devender.ripple@gmail.com, chakravarthi@ripplemetering.com"
+                to: "devender.ripple@gmail.com, chakravarthi@ripplemetering.com, preethi@ripplemetering.com"
             )
         }
     }
