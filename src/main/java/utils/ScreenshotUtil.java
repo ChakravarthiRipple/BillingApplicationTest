@@ -14,13 +14,30 @@ import java.util.Base64;
 import java.util.Date;
 
 public class ScreenshotUtil {
-    private static final Logger log = LogManager.getLogger(ScreenshotUtil.class);
-    private static final String DIR = "test-output/screenshots/";
 
+    private static final Logger log = LogManager.getLogger(ScreenshotUtil.class);
+    private static final String DIR  = "test-output/screenshots/";
+
+    /** Byte array — used by Allure for inline screenshots */
+    public static byte[] captureBytes(WebDriver driver) {
+        return ((TakesScreenshot) driver)
+                .getScreenshotAs(OutputType.BYTES);
+    }
+
+    /** Base64 string — used by ExtentReports */
+    public static String captureBase64(WebDriver driver) {
+        return Base64.getEncoder()
+                .encodeToString(captureBytes(driver));
+    }
+
+    /** Save screenshot to disk — returns file path */
     public static String capture(WebDriver driver, String testName) {
-        String path = DIR + testName + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png";
+        String path = DIR + testName + "_"
+                + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())
+                + ".png";
         try {
-            File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File src = ((TakesScreenshot) driver)
+                    .getScreenshotAs(OutputType.FILE);
             new File(DIR).mkdirs();
             Files.copy(src.toPath(), new File(path).toPath());
             log.info("Screenshot: {}", path);
@@ -28,10 +45,5 @@ public class ScreenshotUtil {
             log.error("Screenshot failed: {}", e.getMessage());
         }
         return path;
-    }
-
-    public static String captureBase64(WebDriver driver) {
-        return Base64.getEncoder().encodeToString(
-            ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
     }
 }
