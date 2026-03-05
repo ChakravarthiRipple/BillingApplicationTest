@@ -52,78 +52,49 @@ pipeline {
                             box-shadow:0 2px 10px rgba(0,0,0,0.1);">
                     <div style="background:#00c853; padding:24px; text-align:center;">
                         <h1 style="color:white; margin:0;">BUILD PASSED</h1>
-                        <p style="color:#e8f5e9; margin:8px 0 0;">
-                            Ripple Metering Automation Framework
-                        </p>
+                        <p style="color:#e8f5e9; margin:8px 0 0;">Ripple Metering Automation</p>
                     </div>
                     <div style="padding:24px;">
-                        <p style="color:#333;">Hi Team,</p>
-                        <p style="color:#333;">
-                            All automation tests have
-                            <b style="color:#00c853;">PASSED</b> successfully.
-                        </p>
+                        <p>Hi Team,</p>
+                        <p>All tests have <b style="color:#00c853;">PASSED</b>.</p>
                         <table style="width:100%; border-collapse:collapse; margin:16px 0;">
                             <tr style="background:#f9f9f9;">
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold; width:35%;">Job Name</td>
-                                <td style="padding:12px; border:1px solid #eee;">
-                                    ${env.JOB_NAME}
-                                </td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold; width:35%;">Job</td>
+                                <td style="padding:12px; border:1px solid #eee;">${env.JOB_NAME}</td>
                             </tr>
                             <tr>
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold;">Build Number</td>
-                                <td style="padding:12px; border:1px solid #eee;">
-                                    #${env.BUILD_NUMBER}
-                                </td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold;">Build</td>
+                                <td style="padding:12px; border:1px solid #eee;">#${env.BUILD_NUMBER}</td>
                             </tr>
                             <tr style="background:#f9f9f9;">
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold;">Status</td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold;">Status</td>
                                 <td style="padding:12px; border:1px solid #eee;">
                                     <span style="background:#00c853; color:white;
-                                                 padding:4px 12px; border-radius:20px;
-                                                 font-weight:bold;">
-                                        PASSED
-                                    </span>
+                                                 padding:4px 12px; border-radius:20px;">PASSED</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold;">Duration</td>
-                                <td style="padding:12px; border:1px solid #eee;">
-                                    ${currentBuild.durationString}
-                                </td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold;">Duration</td>
+                                <td style="padding:12px; border:1px solid #eee;">${currentBuild.durationString}</td>
                             </tr>
                             <tr style="background:#f9f9f9;">
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold;">Build URL</td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold;">Build URL</td>
                                 <td style="padding:12px; border:1px solid #eee;">
-                                    <a href="${env.BUILD_URL}" style="color:#1976d2;">
-                                        Click here to view
-                                    </a>
+                                    <a href="${env.BUILD_URL}" style="color:#1976d2;">Click here</a>
                                 </td>
                             </tr>
                         </table>
                         <div style="text-align:center; margin-top:20px;">
                             <a href="${env.BUILD_URL}"
-                               style="background:#00c853; color:white;
-                                      padding:12px 32px; text-decoration:none;
-                                      border-radius:6px; font-weight:bold;">
+                               style="background:#00c853; color:white; padding:12px 32px;
+                                      text-decoration:none; border-radius:6px; font-weight:bold;">
                                 View Build Details
                             </a>
                         </div>
                     </div>
-                    <div style="background:#f9f9f9; padding:16px;
-                                text-align:center; border-top:1px solid #eee;">
+                    <div style="background:#f9f9f9; padding:16px; text-align:center; border-top:1px solid #eee;">
                         <p style="color:#888; font-size:12px; margin:0;">
-                            Automated by Jenkins CI/CD Pipeline
-                        </p>
-                        <p style="color:#888; font-size:12px; margin:4px 0 0;">
-                            Ripple Metering Automation Framework
-                        </p>
-                        <p style="color:#888; font-size:12px; margin:4px 0 0;">
-                            Regards, Chakravarthi G
+                            Jenkins CI/CD | Ripple Metering Automation | Regards, Chakravarthi G
                         </p>
                     </div>
                 </div>
@@ -146,87 +117,55 @@ pipeline {
                             box-shadow:0 2px 10px rgba(0,0,0,0.1);">
                     <div style="background:#e53935; padding:24px; text-align:center;">
                         <h1 style="color:white; margin:0;">BUILD FAILED</h1>
-                        <p style="color:#ffebee; margin:8px 0 0;">
-                            Ripple Metering Automation Framework
-                        </p>
+                        <p style="color:#ffebee; margin:8px 0 0;">Ripple Metering Automation</p>
                     </div>
                     <div style="padding:24px;">
-                        <p style="color:#333;">Hi Team,</p>
-                        <p style="color:#333;">
-                            The automation build has
-                            <b style="color:#e53935;">FAILED</b>.
-                            Please review the attached log.
-                        </p>
+                        <p>Hi Team,</p>
+                        <p>The build has <b style="color:#e53935;">FAILED</b>. Please check the attached log.</p>
                         <table style="width:100%; border-collapse:collapse; margin:16px 0;">
                             <tr style="background:#f9f9f9;">
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold; width:35%;">Job Name</td>
-                                <td style="padding:12px; border:1px solid #eee;">
-                                    ${env.JOB_NAME}
-                                </td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold; width:35%;">Job</td>
+                                <td style="padding:12px; border:1px solid #eee;">${env.JOB_NAME}</td>
                             </tr>
                             <tr>
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold;">Build Number</td>
-                                <td style="padding:12px; border:1px solid #eee;">
-                                    #${env.BUILD_NUMBER}
-                                </td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold;">Build</td>
+                                <td style="padding:12px; border:1px solid #eee;">#${env.BUILD_NUMBER}</td>
                             </tr>
                             <tr style="background:#f9f9f9;">
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold;">Status</td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold;">Status</td>
                                 <td style="padding:12px; border:1px solid #eee;">
                                     <span style="background:#e53935; color:white;
-                                                 padding:4px 12px; border-radius:20px;
-                                                 font-weight:bold;">
-                                        FAILED
-                                    </span>
+                                                 padding:4px 12px; border-radius:20px;">FAILED</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold;">Duration</td>
-                                <td style="padding:12px; border:1px solid #eee;">
-                                    ${currentBuild.durationString}
-                                </td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold;">Duration</td>
+                                <td style="padding:12px; border:1px solid #eee;">${currentBuild.durationString}</td>
                             </tr>
                             <tr style="background:#f9f9f9;">
-                                <td style="padding:12px; border:1px solid #eee;
-                                           font-weight:bold;">Build URL</td>
+                                <td style="padding:12px; border:1px solid #eee; font-weight:bold;">Build URL</td>
                                 <td style="padding:12px; border:1px solid #eee;">
-                                    <a href="${env.BUILD_URL}" style="color:#1976d2;">
-                                        Click here to view
-                                    </a>
+                                    <a href="${env.BUILD_URL}" style="color:#1976d2;">Click here</a>
                                 </td>
                             </tr>
                         </table>
                         <div style="background:#fff3e0; border-left:4px solid #ff9800;
-                                    padding:12px; margin:16px 0;
-                                    border-radius:0 6px 6px 0;">
+                                    padding:12px; margin:16px 0; border-radius:0 6px 6px 0;">
                             <p style="margin:0; color:#e65100; font-size:13px;">
-                                Build log is attached.
-                                Please review and fix the failing tests.
+                                Build log is attached. Please review and fix failing tests.
                             </p>
                         </div>
                         <div style="text-align:center; margin-top:20px;">
                             <a href="${env.BUILD_URL}"
-                               style="background:#e53935; color:white;
-                                      padding:12px 32px; text-decoration:none;
-                                      border-radius:6px; font-weight:bold;">
+                               style="background:#e53935; color:white; padding:12px 32px;
+                                      text-decoration:none; border-radius:6px; font-weight:bold;">
                                 View Failure Details
                             </a>
                         </div>
                     </div>
-                    <div style="background:#f9f9f9; padding:16px;
-                                text-align:center; border-top:1px solid #eee;">
+                    <div style="background:#f9f9f9; padding:16px; text-align:center; border-top:1px solid #eee;">
                         <p style="color:#888; font-size:12px; margin:0;">
-                            Automated by Jenkins CI/CD Pipeline
-                        </p>
-                        <p style="color:#888; font-size:12px; margin:4px 0 0;">
-                            Ripple Metering Automation Framework
-                        </p>
-                        <p style="color:#888; font-size:12px; margin:4px 0 0;">
-                            Regards, Chakravarthi G
+                            Jenkins CI/CD | Ripple Metering Automation | Regards, Chakravarthi G
                         </p>
                     </div>
                 </div>
@@ -240,14 +179,3 @@ pipeline {
         }
     }
 }
-```
-
----
-
-## For Outlook emails not receiving
-
-Go to **Jenkins → Manage Jenkins → System** scroll to **Extended E-mail Notification** and check:
-
-**Default Recipients** field — make sure all 4 emails are there:
-```
-sprdmntester@gmail.com, devender.ripple@gmail.com, chakravarthi@ripplemetering.com, preethi@ripplemetering.com
