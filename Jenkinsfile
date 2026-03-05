@@ -2,12 +2,9 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/your-repo.git',
-                credentialsId: 'github-cred'
+                echo 'Code checked out successfully'
             }
         }
 
@@ -19,35 +16,28 @@ pipeline {
 
         stage('Test') {
             steps {
-                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    bat 'mvn test'
-                }
-            }
-        }
-
-        stage('Generate Allure Report') {
-            steps {
-                allure([
-                    results: [[path: 'target/allure-results']]
-                ])
+                bat 'mvn test'
             }
         }
     }
 
     post {
-        failure {
+        always {
             emailext(
-                subject: "BUILD FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Build failed. Check: ${env.BUILD_URL}",
-                to: "sprdmntester@gmail.com, devender.ripple@gmail.com"
-            )
-        }
+                subject: "Build ${currentBuild.currentResult}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+Hi Team,
 
-        success {
-            emailext(
-                subject: "BUILD SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Build success. Check: ${env.BUILD_URL}",
-                to: "sprdmntester@gmail.com, devender.ripple@gmail.com"
+Build Status: ${currentBuild.currentResult}
+
+Job Name   : ${env.JOB_NAME}
+Build No   : ${env.BUILD_NUMBER}
+Build URL  : ${env.BUILD_URL}
+
+Regards,
+Chakravarthi G
+""",
+                to: "sprdmntester@gmail.com, devender.ripple@gmail.com, chakravarthi@ripplemetering.com, preethi@ripplemetering.com"
             )
         }
     }
