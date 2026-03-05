@@ -16,7 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * HomePage - Dashboard page for all 6 roles. All roles see "Welcome To Ripple
  * Dashboard!" after login.
  */
-public class HomePage extends BasePage {
+public class ProfilePopup extends BasePage {
 
 	// ── Dashboard Welcome Message ─────────────────────────────
 	@FindBy(xpath = "//h4[contains(text(),'Welcome To Ripple Dashboard!')]")
@@ -72,7 +72,7 @@ public class HomePage extends BasePage {
 	@FindBy(xpath = "//button[contains(text(),'OK')]")
 	private WebElement successOkButton;
 
-	public HomePage(WebDriver driver) {
+	public ProfilePopup(WebDriver driver) {
 		super(driver);
 	}
 

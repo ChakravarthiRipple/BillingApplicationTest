@@ -5,8 +5,8 @@ import constants.UserRole;
 import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.HomePage;
 import pages.LoginPage;
+import pages.ProfilePopup;
 import utils.ConfigReader;
 
 @Epic("Dashboard")
@@ -21,7 +21,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testSuperAdminDashboard() {
 		new LoginPage(driver).loginAs(UserRole.SUPER_ADMIN);
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 		Assert.assertTrue(home.isDashboardLoaded(), "Dashboard should load for Super Admin");
 		Assert.assertTrue(home.getWelcomeMessage().contains("Welcome To Ripple Dashboard!"),
 				"Welcome message should be displayed");
@@ -35,7 +35,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testSuperUserDashboard() {
 		new LoginPage(driver).loginAs(UserRole.SUPER_USER);
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 		Assert.assertTrue(home.isDashboardLoaded(), "Dashboard should load for Super User");
 		Assert.assertTrue(home.getWelcomeMessage().contains("Welcome To Ripple Dashboard!"),
 				"Welcome message should be displayed");
@@ -49,7 +49,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testAdminPrepaidDashboard() {
 		new LoginPage(driver).loginAs(UserRole.ADMIN_PREPAID);
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 		Assert.assertTrue(home.isDashboardLoaded(), "Dashboard should load for Admin Prepaid");
 		Assert.assertTrue(home.getWelcomeMessage().contains("WELCOME TO RIPPLE DASHBOARD!"),
 				"Welcome message should be displayed");
@@ -63,7 +63,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testAdminPostpaidDashboard() {
 		new LoginPage(driver).loginAs(UserRole.ADMIN_POSTPAID);
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 		Assert.assertTrue(home.isDashboardLoaded(), "Dashboard should load for Admin Postpaid");
 		Assert.assertTrue(home.getWelcomeMessage().contains("WELCOME TO RIPPLE DASHBOARD!"),
 				"Welcome message should be displayed");
@@ -77,7 +77,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testConsumerPrepaidDashboard() {
 		new LoginPage(driver).loginAs(UserRole.CONSUMER_PREPAID);
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 		Assert.assertTrue(home.isDashboardLoaded(), "Dashboard should load for Consumer Prepaid");
 		Assert.assertTrue(home.getWelcomeMessage().contains("WELCOME TO RIPPLE DASHBOARD!"),
 				"Welcome message should be displayed");
@@ -92,7 +92,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testConsumerPostpaidDashboard() {
 		new LoginPage(driver).loginAs(UserRole.CONSUMER_POSTPAID);
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 		Assert.assertTrue(home.isDashboardLoaded(), "Dashboard should load for Consumer Postpaid");
 		Assert.assertTrue(home.getWelcomeMessage().contains("WELCOME TO RIPPLE DASHBOARD!"),
 				"Welcome message should be displayed");
@@ -106,7 +106,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.NORMAL)
 	public void testProfileDropdownDisplayed() {
 		new LoginPage(driver).login(ConfigReader.getUsername(), ConfigReader.getPassword());
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 		home.clickProfileIcon();
 		Assert.assertTrue(home.isProfileDropdownDisplayed(),
 				"Profile dropdown should be displayed after clicking profile icon");
@@ -121,7 +121,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.CRITICAL)
 	public void testProfilePopupFields() {
 		new LoginPage(driver).login(ConfigReader.getUsername(), ConfigReader.getPassword());
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 
 		// Open profile popup
 		home.clickProfileIcon();
@@ -149,7 +149,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.CRITICAL)
 	public void testProfileUpdate() {
 		new LoginPage(driver).login(ConfigReader.getUsername(), ConfigReader.getPassword());
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 
 		// Open profile popup
 		home.clickProfileIcon();
@@ -178,7 +178,7 @@ public class HomePageTest extends BaseTest {
 	@Severity(SeverityLevel.CRITICAL)
 	public void testProfileThenLogout() throws InterruptedException {
 		new LoginPage(driver).login(ConfigReader.getUsername(), ConfigReader.getPassword());
-		HomePage home = new HomePage(driver);
+		ProfilePopup home = new ProfilePopup(driver);
 
 		// Open profile popup
 		home.clickProfileIcon();
