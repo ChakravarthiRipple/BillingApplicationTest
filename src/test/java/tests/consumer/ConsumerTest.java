@@ -6,8 +6,8 @@ import io.qameta.allure.*;
 import listeners.RetryAnalyzer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.DashboardPage;
 import pages.LoginPage;
+import pages.ProfilePopup;
 import pages.consumer.postpaid.ConsumerPostpaidPage;
 import pages.consumer.prepaid.ConsumerPrepaidPage;
 
@@ -23,7 +23,7 @@ public class ConsumerTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     public void testConsumerPrepaidLogin() {
         new LoginPage(driver).loginAs(UserRole.CONSUMER_PREPAID);
-        Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Dashboard should load for Consumer Prepaid");
+        Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Dashboard should load for Consumer Prepaid");
     }
 
     @Test(groups = {"consumer_prepaid", "regression"}, description = "Consumer Prepaid can see balance")
@@ -59,7 +59,7 @@ public class ConsumerTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     public void testConsumerPrepaidLogout() {
         new LoginPage(driver).loginAs(UserRole.CONSUMER_PREPAID);
-        new DashboardPage(driver).logout();
+        new ProfilePopup(driver).logout();
         Assert.assertTrue(driver.getCurrentUrl().contains("login"), "Should return to login");
     }
 
@@ -71,7 +71,7 @@ public class ConsumerTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     public void testConsumerPostpaidLogin() {
         new LoginPage(driver).loginAs(UserRole.CONSUMER_POSTPAID);
-        Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Dashboard should load for Consumer Postpaid");
+        Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Dashboard should load for Consumer Postpaid");
     }
 
     @Test(groups = {"consumer_postpaid", "regression"}, description = "Consumer Postpaid can see Bill")
@@ -98,7 +98,7 @@ public class ConsumerTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     public void testConsumerPostpaidLogout() {
         new LoginPage(driver).loginAs(UserRole.CONSUMER_POSTPAID);
-        new DashboardPage(driver).logout();
+        new ProfilePopup(driver).logout();
         Assert.assertTrue(driver.getCurrentUrl().contains("login"), "Should return to login");
     }
 }

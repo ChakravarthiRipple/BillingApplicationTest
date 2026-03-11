@@ -5,10 +5,10 @@
      SMOKE SUITE  -  Login + Logout for all 6 roles
      Command: mvn test -Dsuite=smoke
      ═══════════════════════════════════════════════════════════════ -->
-<suite name="Smoke Tests - All Roles" parallel="tests" thread-count="6" verbose="1">
+<suite name="Smoke Tests - All Roles" parallel="none" thread-count="6" verbose="1">
 
     <listeners>
-        <listener class-name="listeners.ExtentReportListener"/>
+        <listener class-name="listeners.AllureListener"/>
     </listeners>
 
     <test name="Super Admin Smoke">

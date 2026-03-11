@@ -20,6 +20,9 @@ import utils.ConfigReader;
 public class LoginPage extends BasePage {
 
 	// ── Fields ────────────────────────────────────────────────
+	@FindBy(xpath = "//h4[contains(text(),'Welcome To Ripple Dashboard!')]")
+	private WebElement dashboardContainer; 
+	
 	@FindBy(id = "email")
 	private WebElement emailField;
 
@@ -73,6 +76,15 @@ public class LoginPage extends BasePage {
 	// Invalid OTP message shown near username/email field
 	@FindBy(xpath = "//div[contains(text(),'Invalid OTP')]")
 	private WebElement invalidOtpUsernameErrorMessage;
+	
+	public boolean isDashboardLoaded() {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(dashboardContainer));
+			return true;
+		} catch (TimeoutException e) {
+			return false;
+		}
+	}
 
 	// ──────────────────────────────────────────────────────────
 	// SCENARIO 1: Valid Login — email + password

@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.DashboardPage;
 import pages.LoginPage;
 import utils.ConfigReader;
 
@@ -26,9 +25,7 @@ public class LoginTest extends BaseTest {
 	public void testValidLogin() {
 		LoginPage loginPage = new LoginPage(driver);
 		loginPage.login(ConfigReader.getUsername(), ConfigReader.getPassword());
-
-		DashboardPage dashboard = new DashboardPage(driver);
-		Assert.assertTrue(dashboard.isDashboardLoaded(), "Dashboard should load after valid login");
+		Assert.assertTrue(loginPage.isDashboardLoaded(), "Dashboard should load after valid login");
 	}
 
 	// ──────────────────────────────────────────────────────────
@@ -113,9 +110,9 @@ public class LoginTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testSuperAdminLogin() {
 		new LoginPage(driver).loginAs(UserRole.SUPER_ADMIN);
-
-		DashboardPage dashboard = new DashboardPage(driver);
-		Assert.assertTrue(dashboard.isDashboardLoaded(), "Super Admin dashboard should load");
+		LoginPage loginPage = new LoginPage(driver);
+		
+		Assert.assertTrue(loginPage.isDashboardLoaded(), "Super Admin dashboard should load");
 	}
 
 	@Test(groups = { "smoke" }, description = "Super User login")
@@ -123,7 +120,7 @@ public class LoginTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testSuperUserLogin() {
 		new LoginPage(driver).loginAs(UserRole.SUPER_USER);
-		Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Super User dashboard should load");
+		Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Super User dashboard should load");
 	}
 
 	@Test(groups = { "smoke" }, description = "Admin Prepaid login")
@@ -131,7 +128,7 @@ public class LoginTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testAdminPrepaidLogin() {
 		new LoginPage(driver).loginAs(UserRole.ADMIN_PREPAID);
-		Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Admin Prepaid dashboard should load");
+		Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Admin Prepaid dashboard should load");
 	}
 
 	@Test(groups = { "smoke" }, description = "Admin Postpaid login")
@@ -139,7 +136,7 @@ public class LoginTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testAdminPostpaidLogin() {
 		new LoginPage(driver).loginAs(UserRole.ADMIN_POSTPAID);
-		Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Admin Postpaid dashboard should load");
+		Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Admin Postpaid dashboard should load");
 	}
 
 	@Test(groups = { "smoke" }, description = "Consumer Prepaid login")
@@ -147,7 +144,7 @@ public class LoginTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testConsumerPrepaidLogin() {
 		new LoginPage(driver).loginAs(UserRole.CONSUMER_PREPAID);
-		Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Consumer Prepaid dashboard should load");
+		Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Consumer Prepaid dashboard should load");
 	}
 
 	@Test(groups = { "smoke" }, description = "Consumer Postpaid login")
@@ -155,6 +152,6 @@ public class LoginTest extends BaseTest {
 	@Severity(SeverityLevel.BLOCKER)
 	public void testConsumerPostpaidLogin() {
 		new LoginPage(driver).loginAs(UserRole.CONSUMER_POSTPAID);
-		Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Consumer Postpaid dashboard should load");
+		Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Consumer Postpaid dashboard should load");
 	}
 }

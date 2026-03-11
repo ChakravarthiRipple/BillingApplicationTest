@@ -6,8 +6,8 @@ import io.qameta.allure.*;
 import listeners.RetryAnalyzer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.DashboardPage;
 import pages.LoginPage;
+import pages.ProfilePopup;
 import pages.admin.postpaid.AdminPostpaidPage;
 import pages.admin.prepaid.AdminPrepaidPage;
 
@@ -23,7 +23,7 @@ public class AdminTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     public void testAdminPrepaidLogin() {
         new LoginPage(driver).loginAs(UserRole.ADMIN_PREPAID);
-        Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Dashboard should load for Admin Prepaid");
+        Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Dashboard should load for Admin Prepaid");
     }
 
     @Test(groups = {"admin_prepaid", "regression"}, description = "Admin Prepaid can view Prepaid Plans")
@@ -51,7 +51,7 @@ public class AdminTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     public void testAdminPrepaidLogout() {
         new LoginPage(driver).loginAs(UserRole.ADMIN_PREPAID);
-        new DashboardPage(driver).logout();
+        new ProfilePopup(driver).logout();
         Assert.assertTrue(driver.getCurrentUrl().contains("login"), "Should return to login");
     }
 
@@ -63,7 +63,7 @@ public class AdminTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     public void testAdminPostpaidLogin() {
         new LoginPage(driver).loginAs(UserRole.ADMIN_POSTPAID);
-        Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Dashboard should load for Admin Postpaid");
+        Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Dashboard should load for Admin Postpaid");
     }
 
     @Test(groups = {"admin_postpaid", "regression"}, description = "Admin Postpaid can view Billing")
@@ -91,7 +91,7 @@ public class AdminTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     public void testAdminPostpaidLogout() {
         new LoginPage(driver).loginAs(UserRole.ADMIN_POSTPAID);
-        new DashboardPage(driver).logout();
+        new ProfilePopup(driver).logout();
         Assert.assertTrue(driver.getCurrentUrl().contains("login"), "Should return to login");
     }
 }

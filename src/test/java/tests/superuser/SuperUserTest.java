@@ -6,8 +6,8 @@ import io.qameta.allure.*;
 import listeners.RetryAnalyzer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.DashboardPage;
 import pages.LoginPage;
+import pages.ProfilePopup;
 import pages.superuser.SuperUserPage;
 
 @Epic("Role-Based Access")
@@ -19,7 +19,7 @@ public class SuperUserTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     public void testSuperUserLogin() {
         new LoginPage(driver).loginAs(UserRole.SUPER_USER);
-        Assert.assertTrue(new DashboardPage(driver).isDashboardLoaded(), "Dashboard should load for Super User");
+        Assert.assertTrue(new LoginPage(driver).isDashboardLoaded(), "Dashboard should load for Super User");
     }
 
     @Test(groups = {"super_user", "regression"}, description = "Super User can access Reports")
@@ -44,7 +44,7 @@ public class SuperUserTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     public void testSuperUserLogout() {
         new LoginPage(driver).loginAs(UserRole.SUPER_USER);
-        new DashboardPage(driver).logout();
+        new ProfilePopup(driver).logout();
         Assert.assertTrue(driver.getCurrentUrl().contains("login"), "Should return to login");
     }
 }

@@ -8,7 +8,7 @@
 <suite name="Regression Tests - All Roles" parallel="tests" thread-count="6" verbose="1">
 
     <listeners>
-        <listener class-name="listeners.ExtentReportListener"/>
+        <listener class-name="listeners.AllureListener"/>
     </listeners>
 
     <test name="Super Admin Regression">
