@@ -108,7 +108,7 @@ pipeline {
                 subject: "BUILD FAILED - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 mimeType: 'text/html',
                 attachLog: true,
-                to: "sprdmntester@gmail.com,devender.ripple@gmail.com,chakravarthi@ripplemetering.com,preethi@ripplemetering.com",
+                to: "sprdmntester@gmail.com,chakravarthi@ripplemetering.com,preethi@ripplemetering.com",
                 body: """
                 <html>
                 <body style="font-family:Arial,sans-serif; background:#f4f4f4; padding:20px;">
