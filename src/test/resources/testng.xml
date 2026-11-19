@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="Selenium Automation Suite" parallel="none" thread-count="3" verbose="1">
+<suite name="Selenium Automation Suite" parallel="none" verbose="1">
 
     <listeners>
         <listener class-name="listeners.AllureListener"/>
     </listeners>
 
-    <!-- SMOKE TEST SUITE -->
-    <test name="Smoke Tests" preserve-order="true">
-        <groups>
-            <run>
-                <include name="smoke"/>
-            </run>
-        </groups>
+    <test name="1 - Super Admin Login" preserve-order="true">
         <classes>
-            <class name="tests.LoginTest"/>
-            <class name="tests.HomePageTest"/>
+            <class name="tests.superadmin.SuperAdminLoginTest"/>
         </classes>
     </test>
 
-    <!-- REGRESSION TEST SUITE -->
-    <test name="Regression Tests" preserve-order="true">
-        <groups>
-            <run>
-                <include name="regression"/>
-            </run>
-        </groups>
+    <test name="2 - Super User Login" preserve-order="true">
         <classes>
-            <class name="tests.LoginTest"/>
-            <class name="tests.HomePageTest"/>
+            <class name="tests.superuser.SuperUserLoginTest"/>
+        </classes>
+    </test>
+
+    <test name="3 - Admin Login (Prepaid and Postpaid)" preserve-order="true">
+        <classes>
+            <class name="tests.admin.AdminLoginTest"/>
+        </classes>
+    </test>
+
+    <test name="4 - Consumer Login (Prepaid and Postpaid)" preserve-order="true">
+        <classes>
+            <class name="tests.consumer.ConsumerLoginTest"/>
         </classes>
     </test>
 

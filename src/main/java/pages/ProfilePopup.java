@@ -1,201 +1,95 @@
 package pages;
 
-import base.BasePage;
-
-import java.time.Duration;
-
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-/**
- * HomePage - Dashboard page for all 6 roles. All roles see "Welcome To Ripple
- * Dashboard!" after login.
- */
-public class ProfilePopup extends BasePage {
+public class ProfilePopup extends UiActions {
 
-	// ── Dashboard Welcome Message ─────────────────────────────
-	@FindBy(xpath = "//h4[contains(text(),'Welcome To Ripple Dashboard!')]")
-	private WebElement welcomeMessage;
+    // Header dropdown (replace the trigger locator with a stable id if you have one)
+    private final By userMenuTrigger = By.xpath("(//a[contains(@class,'dropdown-toggle')])[last()]");
+    private final By profileOption   = By.xpath("//a[normalize-space()='Profile']");
+    private final By changePwdOption = By.xpath("//a[normalize-space()='Change password']");
+    private final By logoutOption    = By.xpath("//a[normalize-space()='Logout']");
 
-	// ── Profile Icon (top right corner) ──────────────────────
-	@FindBy(xpath = "//img[(@class='rounded-circle header-profile-user')]")
-	private WebElement profileIcon;
+    // Profile modal
+    private final By modal           = By.xpath("//div[contains(@class,'modal-content')]");
+    private final By modalTitle      = By.xpath("//div[contains(@class,'modal-header')]//*[normalize-space()='Profile']");
+    private final By modalClose      = By.xpath("//div[contains(@class,'modal-header')]//button");
+    private final By firstNameInput  = By.xpath("//label[contains(normalize-space(),'First Name')]/following::input[1]");
+    private final By lastNameInput   = By.xpath("//label[contains(normalize-space(),'Last Name')]/following::input[1]");
+    private final By emailInput      = By.xpath("//label[contains(normalize-space(),'Email Address')]/following::input[1]");
+    private final By secondaryEmail  = By.xpath("//input[@placeholder='Enter Secondary Email']");
+    private final By secondaryPhone  = By.xpath("//input[@placeholder='Enter Phone Number']");
+    private final By changePicture   = By.xpath("//a[normalize-space()='Change picture']");
+    private final By updateButton    = By.xpath("//div[contains(@class,'modal-content')]//button[normalize-space()='Update']");
 
-	// ── Profile Dropdown ──────────────────────────────────────
-	@FindBy(xpath = "//div[@class='dropdown-menu dropdown-menu-end show']")
-	private WebElement profileDropdown;
+    // Success alert
+    private final By alertOkButton     = By.xpath("//button[normalize-space()='OK']");
+    private final By profileUpdatedMsg = byText("User profile updated successfully.");
 
-	@FindBy(xpath = "//a[(@class='dropdown-item')]")
-	private WebElement profileMenuItem;
+    public ProfilePopup(WebDriver driver) {
+        super(driver);
+    }
 
-	@FindBy(xpath = "//a[(@class='dropdown-item text-danger')]")
-	private WebElement logoutMenuItem;
+    public void open() {
+        click(userMenuTrigger);
+        visible(logoutOption);
+    }
 
-	// ── Profile Popup Fields ──────────────────────────────────
-	@FindBy(xpath = "(//h5[contains(text(),'Profile')])[2]")
-	private WebElement profilePopup;
+    public void logout() {
+        open();
+        click(logoutOption);
+        wait.until(ExpectedConditions.urlContains("login"));
+    }
 
-	@FindBy(id = "firstName")
-	private WebElement firstNameField;
+    public void openProfile() {
+        open();
+        click(profileOption);
+        visible(modalTitle);
+    }
+    public ChangePasswordPage openChangePassword() {
+        open();
+        click(changePwdOption);
+        return new ChangePasswordPage(driver);
+    }
 
-	@FindBy(id = "lastName")
-	private WebElement lastNameField;
 
-	@FindBy(id = "emailAddress")
-	private WebElement emailField;
+    public String getDisplayedUserName() {
+        return visible(userMenuTrigger).getText().trim();
+    }
 
-	@FindBy(id = "mobileNumber")
-	private WebElement primaryMobileField;
+    public boolean isProfileOptionDisplayed()        { return isShown(profileOption); }
+    public boolean isChangePasswordOptionDisplayed() { return isShown(changePwdOption); }
+    public boolean isLogoutOptionDisplayed()         { return isShown(logoutOption); }
 
-	@FindBy(id = "secondaryEmail")
-	private WebElement secondaryEmailField;
+    public boolean isProfileModalDisplayed()         { return isShown(modalTitle); }
+    public String  getFirstName()                    { return valueOf(firstNameInput); }
+    public String  getLastName()                     { return valueOf(lastNameInput); }
+    public String  getEmail()                        { return valueOf(emailInput); }
 
-	@FindBy(id = "secondaryPhoneNumber")
-	private WebElement secondaryMobileField;
+    public boolean isFirstNameLabelDisplayed()       { return isShown(byContainsText("First Name")); }
+    public boolean isLastNameLabelDisplayed()        { return isShown(byContainsText("Last Name")); }
+    public boolean isEmailLabelDisplayed()           { return isShown(byContainsText("Email Address")); }
+    public boolean isPrimaryMobileLabelDisplayed()   { return isShown(byContainsText("Mobile Number - Primary")); }
+    public boolean isSecondaryEmailDisplayed()       { return isShown(secondaryEmail); }
+    public boolean isSecondaryMobileLabelDisplayed() { return isShown(byContainsText("Mobile Number - Secondary")); }
+    public boolean isSecondaryPhoneDisplayed()       { return isShown(secondaryPhone); }
+    public boolean isChangePictureLinkDisplayed()    { return isShown(changePicture); }
+    public boolean isUpdateButtonDisplayed()         { return isShown(updateButton); }
 
-	@FindBy(xpath = "//div[@class='ng-select-container']")
-	private WebElement countryDropdown;
+    /** Clicks Update with the existing values and returns true if the success alert appears. */
+    public boolean updateProfileWithoutChanges() {
+        click(updateButton);
+        boolean success = isShown(profileUpdatedMsg);
+        if (success) {
+            click(alertOkButton);
+        }
+        return success;
+    }
 
-	// ── Update Button ─────────────────────────────────────────
-	@FindBy(xpath = "//button[contains(text(),'Update')]")
-	private WebElement updateButton;
-
-	// ── Update Success Popup ──────────────────────────────────
-	@FindBy(xpath = "//h2[contains(text(),'Success')]")
-	private WebElement successPopup;
-
-	@FindBy(xpath = "//button[contains(text(),'OK')]")
-	private WebElement successOkButton;
-
-	public ProfilePopup(WebDriver driver) {
-		super(driver);
-	}
-
-	// ── Dashboard ─────────────────────────────────────────────
-
-	public boolean isDashboardLoaded() {
-		try {
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-			wait.until(ExpectedConditions.visibilityOf(welcomeMessage));
-			return true;
-		} catch (TimeoutException e) {
-			return false;
-		}
-	}
-
-	public String getWelcomeMessage() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-		wait.until(ExpectedConditions.visibilityOf(welcomeMessage));
-		return welcomeMessage.getText();
-	}
-
-	// ── Profile Icon & Dropdown ───────────────────────────────
-
-	public void clickProfileIcon() {
-		click(profileIcon);
-	}
-
-	public boolean isProfileDropdownDisplayed() {
-		return isDisplayed(profileDropdown);
-	}
-
-	public void clickProfileMenuItem() {
-		click(profileMenuItem);
-	}
-
-	public void clickLogoutMenuItem() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-		for (int i = 0; i < 3; i++) {
-			try {
-				wait.until(ExpectedConditions.visibilityOf(logoutMenuItem));
-				wait.until(ExpectedConditions.elementToBeClickable(logoutMenuItem)).click();
-				return;
-			} catch (StaleElementReferenceException e) {
-				// retry
-			}
-		}
-		throw new RuntimeException("Unable to click Logout menu item");
-	}
-
-	// ── Profile Popup ─────────────────────────────────────────
-
-	public boolean isProfilePopupDisplayed() {
-		try {
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-			wait.until(ExpectedConditions.visibilityOf(profilePopup));
-			return true;
-		} catch (TimeoutException | StaleElementReferenceException e) {
-			return false;
-		}
-	}
-
-	public boolean isFirstNameFieldDisplayed() {
-		return isDisplayed(firstNameField);
-	}
-
-	public boolean isLastNameFieldDisplayed() {
-		return isDisplayed(lastNameField);
-	}
-
-	public boolean isEmailFieldDisplayed() {
-		return isDisplayed(emailField);
-	}
-
-	public boolean isPrimaryMobileFieldDisplayed() {
-		return isDisplayed(primaryMobileField);
-	}
-
-	public boolean isSecondaryEmailFieldDisplayed() {
-		return isDisplayed(secondaryEmailField);
-	}
-
-	public boolean isSecondaryMobileFieldDisplayed() {
-		return isDisplayed(secondaryMobileField);
-	}
-
-	public boolean isCountryDropdownDisplayed() {
-		return isDisplayed(countryDropdown);
-	}
-
-	public void updateFirstName(String firstName) {
-		type(firstNameField, firstName);
-	}
-
-	public void updateLastName(String lastName) {
-		type(lastNameField, lastName);
-	}
-
-	public void clickUpdate() {
-		click(updateButton);
-	}
-
-	// ── Success Popup ─────────────────────────────────────────
-
-	public boolean isSuccessPopupDisplayed() {
-		try {
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-			wait.until(ExpectedConditions.visibilityOf(successPopup));
-			return true;
-		} catch (TimeoutException | StaleElementReferenceException e) {
-			return false;
-		}
-	}
-
-	public void clickOkOnSuccessPopup() {
-		click(successOkButton);
-	}
-
-	// ── Full Logout Flow ──────────────────────────────────────
-
-	public void logout() {
-		clickProfileIcon();
-		clickLogoutMenuItem();
-		waitForUrl("login");
-	}
+    public void closeProfileModal() {
+        click(modalClose);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(modal));
+    }
 }

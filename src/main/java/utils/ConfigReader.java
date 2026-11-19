@@ -4,43 +4,58 @@ import constants.UserRole;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
-public class ConfigReader {
+public final class ConfigReader {
 
-    private static final Properties props = new Properties();
     private static final Logger log = LogManager.getLogger(ConfigReader.class);
-    private static final String CONFIG_PATH = "src/test/resources/config.properties";
+    private static final String CONFIG_FILE = "config.properties";
+    private static final Properties props = new Properties();
+
+    private ConfigReader() { }
 
     static {
-        try {
-            props.load(new FileInputStream(CONFIG_PATH));
-            log.info("config.properties loaded.");
+        try (InputStream in = ConfigReader.class.getClassLoader().getResourceAsStream(CONFIG_FILE)) {
+            if (in == null) {
+                throw new RuntimeException(CONFIG_FILE + " not found on classpath (expected in src/test/resources)");
+            }
+            props.load(in);
+            log.info("{} loaded.", CONFIG_FILE);
         } catch (IOException e) {
-            throw new RuntimeException("Cannot load config.properties: " + e.getMessage());
+            throw new RuntimeException("Cannot load " + CONFIG_FILE + ": " + e.getMessage(), e);
         }
     }
 
+    /** Resolution order: -Dkey=value (JVM/CI) first, then config.properties. */
     public static String get(String key) {
-        String value = props.getProperty(key);
-        if (value == null) throw new RuntimeException("Missing key in config: " + key);
+        String value = System.getProperty(key);
+        if (value == null || value.trim().isEmpty()) {
+            value = props.getProperty(key);
+        }
+        if (value == null || value.trim().isEmpty()) {
+            throw new RuntimeException("Missing or empty key in config: " + key);
+        }
         return value.trim();
     }
 
-    // General
+    // ---------------- General ----------------
     public static String getBaseUrl()  { return get("base.url"); }
-    public static String getBrowser()  { return System.getProperty("browser", get("browser")); }
-    public static boolean isHeadless() { return Boolean.parseBoolean(System.getProperty("headless", get("headless"))); }
+    public static String getBrowser()  { return get("browser"); }
+    public static boolean isHeadless() { return Boolean.parseBoolean(get("headless")); }
 
-    // Default credentials (no role) - used by HomePageTest
-    public static String getUsername() { return get("username"); }
-    public static String getPassword() { return get("password"); }
+    // ---------------- Role-based ----------------
+    public static String getUsername(UserRole role)      { return get(roleKey(role) + ".username"); }
+    public static String getPassword(UserRole role)      { return get(roleKey(role) + ".password"); }
+    public static String getDashboardPath(UserRole role) { return get(roleKey(role) + ".dashboard.path"); }
 
-    // Role-based credentials
-    public static String getUsername(UserRole role) { return get(roleKey(role) + ".username"); }
-    public static String getPassword(UserRole role) { return get(roleKey(role) + ".password"); }
+    // ---------------- Default role ----------------
+    public static UserRole getDefaultRole() {
+        return UserRole.valueOf(get("default.role").toUpperCase());
+    }
+    public static String getUsername() { return getUsername(getDefaultRole()); }
+    public static String getPassword() { return getPassword(getDefaultRole()); }
 
     private static String roleKey(UserRole role) {
         return role.name().toLowerCase();
