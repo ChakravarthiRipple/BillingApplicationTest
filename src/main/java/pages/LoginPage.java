@@ -8,7 +8,9 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -196,7 +198,18 @@ public class LoginPage extends UiActions {
 	}
 
 	public boolean isOnLoginPage() {
-		return driver.getCurrentUrl().contains("/auth/login");
+	    try {
+	        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
+	        return wait.until(
+	            ExpectedConditions.urlContains("/auth/login")
+	        );
+
+	    } catch (TimeoutException e) {
+	        System.out.println("Expected login URL not found.");
+	        System.out.println("Actual URL: " + driver.getCurrentUrl());
+	        return false;
+	    }
 	}
 
 	/** True while the password text is masked (input type="password"). */
