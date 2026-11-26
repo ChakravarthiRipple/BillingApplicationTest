@@ -205,10 +205,11 @@ pipeline {
         }
 
         cleanup {
-            cleanWs(
+    cleanWs(
         deleteDirs: true,
         disableDeferredWipeout: true,
         notFailBuild: true
     )
+}
     }
 }
